@@ -1,0 +1,64 @@
+apt install vsftpd ftp
+//
+By default the vsFTPd server comes configured to allow system users to access their home directories with read-only access.
+The following is a default vsFTPd config file 
+
+/etc/vsftpd.conf
+
+//
+listen=NO
+listen_ipv6=YES
+anonymous_enable=NO
+local_enable=YES
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+
+//
+write_enable=YES
+
+///
+systemctl restart vsftpd
+//
+
+# mkdir /var/ftp/
+# chmod 555 /var/ftp/
+# chown ftp.ftp /var/ftp/
+# touch /var/ftp/ANONYMOUS.TXT
+
+/etc/vsftpd.conf
+
+anon_root=/var/ftp
+anonymous_enable=YES
+
+
+
+///////////////////
+listen=NO
+listen_ipv6=YES
+anonymous_enable=NO
+local_enable=YES
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+ssl_enable=NO
+write_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_enable=YES
+userlist_deny=NO
+anon_root=/var/ftp
+anonymous_enable=YES
+no_anon_password=YES
+
+/////////////////
