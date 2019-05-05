@@ -1,0 +1,9 @@
+$ sudo apt-get update
+$ sudo apt-get install wireshark -y
+
+
+sudo apt-get install ns2
+ 
+sudo apt-get install nam
+
+https://www.programming9.com/tutorials/ns2-tutorials/260-install-ns2-2-35-on-ubuntu-14-04

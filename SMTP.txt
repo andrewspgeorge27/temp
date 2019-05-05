@@ -1,0 +1,27 @@
+Step 1 — Installing Postfix
+sudo apt update
+sudo apt install mailutils
+sudo apt install postfix
+///https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-debian-9
+Step 2 — Configuring Postfix
+sudo nano /etc/postfix/main.cf
+
+
+Change the line that reads inet_interfaces = all to inet_interfaces = loopback-only:
+
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = loopback-only
+
+mydestination = $myhostname, example.com, localhost.com, , localhost
+. . .
+The recommended defaults for this directive are given in the code block below, so modify yours to match:
+
+/etc/postfix/main.cf
+. . .
+mydestination = $myhostname, localhost.$your_domain, $your_domain
+
+sudo systemctl restart postfix
+
+Step 3 — Testing the SMTP Server
+echo "This is the body of the email" | mail -s "This is the subject line" your_email_address

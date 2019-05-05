@@ -1,0 +1,53 @@
+1.Install telnet use this command in terminal(Applications/Accessories/Terminal):
+
+sudo apt-get install xinetd telnetd 
+2.Edit /etc/inetd.conf using your favourite file editor with root permission,add this line:
+
+telnet stream tcp nowait telnetd /usr/sbin/tcpd /usr/sbin/in.telnetd
+3.Edit /etc/xinetd.conf,make its content look like following:
+
+# Simple configuration file for xinetd
+#
+# Some defaults, and include /etc/xinetd.d/
+defaults
+{
+# Please note that you need a log_type line to be able to use log_on_success
+# and log_on_failure. The default is the following :
+# log_type = SYSLOG daemon info
+instances = 60
+log_type = SYSLOG authpriv
+log_on_success = HOST PID
+log_on_failure = HOST
+cps = 25 30
+}
+
+4.You can change telnet port number by edit /etc/services with this line:
+
+telnet        23/tcp 
+5.If you’re not satisfied with default configuration.Edit etc/xinetd.d/telnet, add following:
+
+# default: on
+# description: The telnet server serves telnet sessions; it uses
+# unencrypted username/password pairs for authentication.
+service telnet
+{
+disable = no
+flags = REUSE
+socket_type = stream
+wait = no
+user = root
+server = /usr/sbin/in.telnetd
+log_on_failure += USERID
+}
+
+add these lines as you like:
+
+only_from = 192.168.120.0/24 #Only users in 192.168.120.0 can access to
+only_from = .bob.com #allow access from bob.com
+no_access = 192.168.120.{101,105} #not allow access from the two IP.
+access_times = 8:00-9:00 20:00-21:00 #allow access in the two times
+......
+
+6.Use this command to start telnet server:
+
+sudo /etc/init.d/xinetd restart 
